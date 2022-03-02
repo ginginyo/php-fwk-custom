@@ -1,0 +1,16 @@
+{
+    "name": "root/html",
+    "autoload": {
+        "psr-4": {
+            "Root\\Html\\Dao\\": "dao",
+            "Root\\Html\\Core\\": "core"
+        }
+    },
+    "authors": [
+        {
+            "name": "name",
+            "email": "email@email.com"
+        }
+    ],
+    "require": {}
+}

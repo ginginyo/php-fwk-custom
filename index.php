@@ -1,1 +1,3 @@
-<h1>Salut</h1>
+<?php
+
+require("./vendor/autoload.php");
