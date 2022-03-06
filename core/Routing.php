@@ -55,8 +55,8 @@ class Routing {
 		$this->config = json_decode(file_get_contents("config/routing.json"), true);
 		$this->uri = explode('/', $_SERVER['REQUEST_URI]']);
 		$this->method = $_SERVER['REQUEST_METHOD'];
+		$this->arguments = [];
 	}
-
 
 
 	/**
@@ -70,10 +70,9 @@ class Routing {
 		foreach($routes as $route) {
 			// parse the route
 			$this->route = explode('/', $route);
-
 			if($this->isEqual()) {
 				if ($this->compare()) {
-					$this->getControllerValue($route);
+				 	$this->getControllerValue($route);					
 					$this->invoke();
 				}
 			}
@@ -100,7 +99,9 @@ class Routing {
 			$this->controllerValue = $this->config[$route][$this->method];
 		}
 		// when the route has only one method
-		$this->controllerValue = $this->config[$route];
+		else {
+			$this->controllerValue = $this->config[$route];
+		}
 	}
 
 	/**
@@ -120,13 +121,16 @@ class Routing {
 	 */
 	public function compare(): bool {		
 		for($i = 0; $i < count($this->route); $i++) {
-			if($this->route[$i] === $this->uri[$i]) {
+			// when the the parameter of the uri is correct
+			if($this->route[$i] === $this->uri[$i] && $this->route[$i] !== "(:)") {
 				continue;
 			}
-			elseif ($this->route[$i] === "(:)" && is_numeric($this->uri[$i])) {
+			// when the parameters of the uri is a number
+			if ($this->route[$i] === "(:)" && is_numeric($this->uri[$i])) {
 				$this->addArgument($this->uri[$i]);
+				continue;
 			}
-			$this->arguments = [];
+
 			return false;
 		}
 		return true;
@@ -135,20 +139,24 @@ class Routing {
 	/**
 	 * instantiate the controller and execute the method corresponding to the controllerValue found
 	 *
-	 * @return void
+	 * @return mixed
 	 */
-	public function invoke() {
+	public function invoke(): mixed {
+		// separate the controller and its method to manipulate them
 		$params = explode(':', $this->controllerValue);
-		$controller = $params[0];
+		$controller = "Root\\Html\\Dao\\" . $params[0];
 		$method = $params[1];
 
+		// instanciate the controller with indirection
 		$instance = new $controller();
 		
-		if(empty($this->args)) {
-			$instance->$method;
+		// when there is not argument
+		if(empty($this->arguments)) {
+			return $instance->$method();
 		}
+		// when there is some arguments
 		else {
-			$instance->$method($this->args[0]);
+			return $instance->$method($this->arguments[0]);
 		}
 	}
 }
