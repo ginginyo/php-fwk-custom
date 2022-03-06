@@ -8,7 +8,7 @@ use PDOException;
 abstract class DAO implements CRUDInterface, RepositoryInterface {
 	protected PDO $pdo;
 
-	public function __construct() {
+	protected function __construct() {
 		$config = json_decode(file_get_contents("config/database.json"), true);
 		
 		try {
