@@ -1,9 +1,9 @@
 {
-	"driver": "",
-	"host": "",
-	"port": "",
-	"dbname": "",
-	"username": "",
-	"password": "",
-	"charset": ""
+	"driver": "mysql",
+	"host": "172.17.0.1",
+	"port": "2043",
+	"dbname": "symfony_db",
+	"username": "root",
+	"password": "root",
+	"charset": "utf8mb4"
 }

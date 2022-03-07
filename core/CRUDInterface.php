@@ -2,6 +2,9 @@
 
 namespace Root\Html\Core;
 
+/**
+ * Interface to CRUD
+ */
 interface CRUDInterface {
 	public function create(array $tab): object;
 	public function retrieve(int $id): object;

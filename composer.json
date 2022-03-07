@@ -3,7 +3,9 @@
     "autoload": {
         "psr-4": {
             "Root\\Html\\Dao\\": "dao",
-            "Root\\Html\\Core\\": "core"
+            "Root\\Html\\Core\\": "core",
+            "Root\\Html\\Controllers\\": "controllers",
+            "Root\\Html\\Models\\": "models"
         }
     },
     "authors": [

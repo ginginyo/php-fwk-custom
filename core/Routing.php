@@ -2,6 +2,10 @@
 
 namespace Root\Html\Core;
 
+/**
+ * Routing class will receive the http request to find the corresponding route 
+ * using uri and method request and invoke the corresponding controller and method
+ */
 class Routing {
 	/**
 	 * URI parsed at the instanciation of the object
@@ -53,7 +57,7 @@ class Routing {
 	 */
 	public function __construct() {
 		$this->config = json_decode(file_get_contents("config/routing.json"), true);
-		$this->uri = explode('/', $_SERVER['REQUEST_URI]']);
+		$this->uri = explode('/', $_SERVER['REQUEST_URI']);
 		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->arguments = [];
 	}
@@ -62,9 +66,10 @@ class Routing {
 	/**
 	 * this method is called for each http request and trigger the routing
 	 *
-	 * @return void
+	 * @return mixed
 	 */
-	public function execute(): void {
+	public function execute(): mixed {
+		
 		// test all routes from the config 
 		$routes = array_keys($this->config);
 		foreach($routes as $route) {
@@ -73,7 +78,7 @@ class Routing {
 			if($this->isEqual()) {
 				if ($this->compare()) {
 				 	$this->getControllerValue($route);					
-					$this->invoke();
+					return $this->invoke();
 				}
 			}
 		}
@@ -144,7 +149,7 @@ class Routing {
 	public function invoke(): mixed {
 		// separate the controller and its method to manipulate them
 		$params = explode(':', $this->controllerValue);
-		$controller = "Root\\Html\\Dao\\" . $params[0];
+		$controller = "Root\\Html\\Controllers\\" . $params[0];
 		$method = $params[1];
 
 		// instanciate the controller with indirection

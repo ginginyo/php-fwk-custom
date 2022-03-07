@@ -2,6 +2,10 @@
 
 namespace Root\Html\Core;
 
+/**
+ * Controller class are meant to be extended by concret controller class.
+ * They are instantiated by the Routing class to execute the specified method 
+ */
 abstract class Controller {
 	private array $get;
 	private array $post;
@@ -20,7 +24,7 @@ abstract class Controller {
 	 */
 	final protected function render(String $view, array $data = null): void {
 		extract($data);
-		require('/views/' . $view . '.php');
+		require('./views/' . $view . '.php');
 	}
 
 	protected function inputGet(): array {
