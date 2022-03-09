@@ -24,3 +24,5 @@ To use the framework, each folder has its specifications, the dev has to :
 - create an entity in the model folder
 - create and extends his concret DAO with the abstract DAO placed in the core folder
 - create and extends his concret Controller with the abstract Controller placed in the core folder
+
+(TEST in progress in Test branch)
